@@ -27,6 +27,9 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <!--TinyMCE  API-->
+        <script src="https://cdn.tiny.cloud/1/2kuu50odhwzoo66bh9jzrdbxcii9vjju078i3uxfj997bany/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        
     </head>
 
     <body>
@@ -107,61 +110,100 @@
                       </form>  
                 </div>
             </nav>
-            <div class="container-fluid service py-5">
-                <div class="col-md-6  " data-wow-delay="0.3s"></div>
-                <h1 class="titule">Latest Events</h1>
-                
-    <div id="newsContainer">
-        <!-- Aquí se mostrarán las noticias -->
-    </div>
 
-    <script>
-       // Realizar una solicitud GET al backend para obtener las noticias
-       fetch('show_events.php')
-            .then(response => response.json())
-            .then(data => {
-                // Manipular los datos recibidos y mostrar las noticias en el contenedor
-                const newsContainer = document.getElementById('newsContainer');
-                const newsList = document.createElement('ul'); // Crear una lista para las noticias
-    
-                data.forEach(noticia => {
-                    const noticiaItem = document.createElement('li'); // Crear un elemento de lista para cada noticia
-                    const noticiaElement = document.createElement('div');
-                    noticiaElement.innerHTML = `
-                        <h4 class="titulo">${noticia.Titulo}</h4>
-                        <p class="descripcion">${noticia.Descripcion}</p>
-                        <p>Date post: ${noticia.Fecha}</p>
-                        <p>URL: <a href="${noticia.URL}">${noticia.URL}</a></p>
-                        <!-- end show post -->
-                    `;
-    
-                    // Ocultar la descripción y el enlace inicialmente
-                    noticiaElement.querySelector('.descripcion').style.display = 'none';
-                    noticiaElement.querySelector('a').style.display = 'none';
-    
-                    // Agregar evento de clic al título para mostrar la descripción y el enlace
-                    noticiaElement.querySelector('.titulo').addEventListener('click', () => {
-                        const descripcion = noticiaElement.querySelector('.descripcion');
-                        const enlace = noticiaElement.querySelector('a');
-                        if (descripcion.style.display === 'none') {
-                            descripcion.style.display = 'block';
-                            enlace.style.display = 'block';
-                        } else {
-                            descripcion.style.display = 'none';
-                            enlace.style.display = 'none';
-                        }
-                    });
-    
-                    noticiaItem.appendChild(noticiaElement);
-                    newsList.appendChild(noticiaItem);
-                });
-    
-                newsContainer.appendChild(newsList);
-            })
-            .catch(error => console.error('Error al obtener las noticias', error));
+        </div>
+        <!-- Navbar & Hero End -->
+
+
+        <!-- Services Start--> 
+        <script>
+            tinymce.init({
+                selector: '.descripcion', // Selector de la clase que tiene la descripción
+                plugins: 'lists link image', // Lista de plugins que deseas habilitar
+                toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image', // Barra de herramientas personalizada
+                menubar: false, // Deshabilita la barra de menú
+                height: 300 // Altura del editor
+            });
+        </script>
+        
+        <div class="container-fluid service py-5">
+            <div class="container py-5">
+                <h1 class="titule">Events</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="subtitle">Latest Events</h2>
+                        <div id="latestNewsContainer">
+                            <!-- Aquí se mostrarán las noticias más recientes -->
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h2 class="subtitle">Past Events</h2>
+                        <div id="pastNewsContainer">
+                            <!-- Aquí se mostrarán las noticias pasadas -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+<script>
+    fetch('show_events.php')
+    .then(response => response.json())
+    .then(data => {
+        const latestNewsContainer = document.getElementById('latestNewsContainer');
+        const pastNewsContainer = document.getElementById('pastNewsContainer');
+        const currentDate = new Date();
+
+        data.forEach(noticia => {
+            const noticiaElement = document.createElement('div');
+            noticiaElement.classList.add('noticia');
+
+            const tituloElement = document.createElement('h4');
+            tituloElement.textContent = noticia.Titulo;
+            tituloElement.classList.add('titulo');
+
+            const fechaElement = document.createElement('p');
+            fechaElement.textContent = `Date post: ${noticia.Fecha}`;
+            fechaElement.classList.add('fecha');
+
+            const descripcionElement = document.createElement('div');
+            descripcionElement.innerHTML = noticia.Descripcion;
+            descripcionElement.classList.add('descripcion');
+            descripcionElement.style.display = 'none';
+
+            tituloElement.addEventListener('click', () => {
+                if (descripcionElement.style.display === 'none') {
+                    descripcionElement.style.display = 'block';
+                } else {
+                    descripcionElement.style.display = 'none';
+                }
+            });
+
+            noticiaElement.appendChild(tituloElement);
+            noticiaElement.appendChild(fechaElement);
+            noticiaElement.appendChild(descripcionElement);
+
+            // Parsear la fecha de la noticia
+            const fechaNoticia = new Date(noticia.Fecha);
+
+            // Decidir en qué contenedor agregar la noticia
+            if (fechaNoticia > currentDate) {
+                latestNewsContainer.appendChild(noticiaElement);
+            } else {
+                pastNewsContainer.appendChild(noticiaElement);
+            }
+        });
+    })
+    .catch(error => console.error('Error al obtener las noticias', error));
+
+       
     </script>
+        
+                  
 
-          
+                  
+                  <!-- Aquí irían los eventos -->
+                </div>
               
                 
              
@@ -209,7 +251,7 @@
         
       
         <!-- Back to Top -->
-        <a href="events.html" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>   
+        <a href="news3.html" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
         
         <!-- JavaScript Libraries -->
