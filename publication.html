@@ -12,7 +12,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet"> 
-
+        
         <!-- Icon Font Stylesheet -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -27,6 +27,12 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <!--TinyMCE  API-->
+        <script src="https://cdn.tiny.cloud/1/2kuu50odhwzoo66bh9jzrdbxcii9vjju078i3uxfj997bany/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+
+
+
     </head>
 
     <body>
@@ -56,9 +62,10 @@
     </header>
     <p class="titulo2">New Publication</p>
     <form method="post" action="guardar_publicacion.php">
-        <div class="form-row mb-3">
-            <label for="to" class="col-2 col-sm-1 col-form-label">Title:</label>
+        <div class="form-group mt-4">
+            <label for="message" class="col-2 col-sm-1 col-form-label">Titule:</label>
             <div class="col-10 col-sm-11">
+                
                 <input name="txttitulo" type="text" class="form-control" id="to" placeholder="Type title">
             </div>
         </div>
@@ -84,6 +91,33 @@
                 <option value="Publicaciones">Publications</option>
             </select>
         </div>
+        <script>
+            tinymce.init({
+              selector: '#message'
+            });
+          </script>
+          <script>
+            // Agregar un evento de envío al formulario
+            document.getElementById('publicationForm').addEventListener('submit', function(event) {
+                // Obtener el contenido del editor TinyMCE
+                var contenido = tinymce.get('message').getContent();
+        
+                // Agregar el contenido como un campo oculto al formulario
+                var contenidoInput = document.createElement('input');
+                contenidoInput.type = 'hidden';
+                contenidoInput.name = 'contenido';
+                contenidoInput.value = contenido;
+                this.appendChild(contenidoInput);
+                
+               console.log(contenido);
+                
+                // Continuar con el envío del formulario
+                // Si deseas prevenir el envío del formulario, comenta la siguiente línea
+                // event.preventDefault();
+            });
+        </script>
+        
+      
         <div class="form-group mt-4">
             <label for="message" class="col-2 col-sm-1 col-form-label">Description:</label>
             <textarea class="form-control" id="message" name="body" rows="12" placeholder="Click here to write the publication"></textarea>
@@ -109,7 +143,16 @@
               
  <!--form end-->
       
- 
+ <script>
+    tinymce.init({
+        selector: '#message', // Selector del textarea al que deseas aplicar el editor
+        plugins: 'lists link image', // Lista de plugins que deseas habilitar
+        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image', // Barra de herramientas personalizada
+        menubar: false, // Deshabilita la barra de menú
+        height: 300 // Altura del editor
+    });
+</script>
+
     
 
         <!-- Footer Start -->
@@ -141,6 +184,7 @@
                     <p class="mb-4 text-white">Last Update 2024 year</p>
                 </div>
             </div>
+            
         </div>
         <!-- Footer End -->
         

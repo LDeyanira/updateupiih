@@ -270,16 +270,16 @@ float: right;
 /* Estilos para la lista vertical con iconos */
 .icon-list {
     list-style: none; /* Quita los puntos predeterminados de la lista */
-    padding-left: 2; /* Elimina el relleno izquierdo predeterminado */
+    padding-left: 0; /* Elimina el relleno izquierdo predeterminado */
     position:relative; /* Posiciona la lista */
     top: 0; /* Ajusta la posición desde arriba */
     right: 0px; /* Ajusta la posición desde la derecha */
     text-align: right; /* Centra horizontalmente los iconos */
-    margin-top: -500px; /* Ajusta la distancia desde arriba */
+    margin-top:auto; /* Ajusta la distancia desde arriba */
     color:#682444;
     font-size: 15px;
     border-color:white;
-    margin-left: 100px;
+    margin-left: -20px;
     float: right;
  
 }

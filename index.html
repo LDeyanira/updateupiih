@@ -155,8 +155,21 @@
         <!-- Services Start--> 
         <div class="container-fluid service py-5">
            <div class="container py-5">
-            <div class="col-md-6 col-lg-4 col-xl-3 " data-wow-delay="0.3s">
-                
+            <div class="row">
+                <div class="row"></div>
+                     
+                <div class="col-md-3 " data-wow-delay="0.3s">
+            
+            
+                    <ul class="icon-list">
+                        <li><i class="fas fa-cog" ></i><a class="lista" href="https://www.upiih.ipn.mx/">UPIIH</a></li>
+                        <li><i class="fas fa-cog" ></i><a class="lista" href="https://simmer.io/@LAFuentes/upiih-recorrido-virtual#google_vignette">UPIIH Virtual Tour</a></li>
+                        <li><i class="fas fa-cog" ></i><a class="lista" href="https://www.facebook.com/Podcast.UPIIH/videos">Podcast UPIIH</a></li>
+    
+                        </ul>
+                   </div>
+            
+            <div class="col-md-3 " data-wow-delay="0.3s">
                 <div class="section-title mb-5 wow fadeInUp" data-wow-delay="0.2s">
                     <div class="service-content-inner">
                         <img src="img/icon-news.gif" alt="" width="200px">
@@ -165,42 +178,47 @@
                     </div>
                 
                     <script>
-                        // Realizar una solicitud GET al backend para obtener las noticias
-                        fetch('show_news.php')
-                            .then(response => response.json())
-                            .then(data => {
-                                // Manipular los datos recibidos y mostrar las noticias en el contenedor
-                                const newsContainer = document.getElementById('newsContainer');
-                                const newsList = document.createElement('ul'); // Crear una lista para las noticias
+                        document.addEventListener("DOMContentLoaded", function() {
+        // Realizar una solicitud GET al backend para obtener las noticias
+        fetch('show_news.php')
+            .then(response => response.json())
+            .then(data => {
+                // Manipular los datos recibidos y mostrar las primeras 5 noticias en el contenedor
+                const newsContainer = document.getElementById('newsContainer');
+                const newsList = document.createElement('ul'); // Crear una lista para las noticias
+
+                // Iterar sobre las primeras 5 noticias o menos si hay menos de 5 noticias
+                for (let i = 0; i < Math.min(4, data.length); i++) {
+                    const noticia = data[i];
+
+                    const noticiaItem = document.createElement('li'); // Crear un elemento de lista para cada noticia
+                    const noticiaElement = document.createElement('div');
+                    noticiaElement.innerHTML = `
+                        <h4 class="titulo">${noticia.Titulo}</h4>
+                        <p class="date">Date post: ${noticia.Fecha}</p>
+                        <!-- end show post -->
+                    `;
+
+                    // Agregar evento de clic al título para redirigir a news3.html
+                    noticiaElement.querySelector('.titulo').addEventListener('click', () => {
+                        window.location.href = 'news3.html';
+                    });
+
+                    noticiaItem.appendChild(noticiaElement);
+                    newsList.appendChild(noticiaItem);
+                }
+
+                newsContainer.appendChild(newsList);
+            })
+            .catch(error => console.error('Error al obtener las noticias', error));
+    });
                     
-                                data.forEach(noticia => {
-                                    const noticiaItem = document.createElement('li'); // Crear un elemento de lista para cada noticia
-                                    const noticiaElement = document.createElement('div');
-                                    noticiaElement.innerHTML = `
-                                        <h4 class="titulo">${noticia.Titulo}</h4>
-                                      
-                                        <p class="date">Date post: ${noticia.Fecha}</p>
-        
-                                        <!-- end show post -->
-                                    `;
-                    
-            
-                    
-                                    noticiaItem.appendChild(noticiaElement);
-                                    newsList.appendChild(noticiaItem);
-                                });
-                    
-                                newsContainer.appendChild(newsList);
-                            })
-                            .catch(error => console.error('Error al obtener las noticias', error));
-                        
-                
+
                     </script>
                     </div>
-                    
-                
-                
                 </div>
+                </div>
+                <div class="col-md-4">
                  <div class="section-title mb-5 wow fadeInUp" data-wow-delay="0.2s">
                                 <div class="service-content-inner">
                                     <img src="img/events-icon.png" alt="" class="events">
@@ -210,52 +228,51 @@
                                     </div>
                                 
                                     <script>
-                                        // Realizar una solicitud GET al backend para obtener las noticias
-                                        fetch('show_events.php')
-                                            .then(response => response.json())
-                                            .then(data => {
-                                                // Manipular los datos recibidos y mostrar las noticias en el contenedor
-                                                const newsContainer = document.getElementById('newsContainer2');
-                                                const newsList = document.createElement('ul'); // Crear una lista para las noticias
-                                    
-                                                data.forEach(noticia => {
-                                                    const noticiaItem = document.createElement('li'); // Crear un elemento de lista para cada noticia
-                                                    const noticiaElement = document.createElement('div');
-                                                    noticiaElement.innerHTML = `
-                                                        <h4 class="titulo">${noticia.Titulo}</h4>
-                                                      
-                                                        <p class="date">Date post: ${noticia.Fecha}</p>
-                        
-                                                        <!-- end show post -->
-                                                    `;
-                                    
-                            
-                                    
-                                                    noticiaItem.appendChild(noticiaElement);
-                                                    newsList.appendChild(noticiaItem);
-                                                });
-                                    
-                                                newsContainer.appendChild(newsList);
-                                            })
-                                            .catch(error => console.error('Error al obtener las noticias', error));
+                                        document.addEventListener("DOMContentLoaded", function() {
+        // Realizar una solicitud GET al backend para obtener las noticias
+        fetch('show_events.php')
+            .then(response => response.json())
+            .then(data => {
+                // Manipular los datos recibidos y mostrar las primeras 5 noticias en el contenedor
+                const newsContainer = document.getElementById('newsContainer2');
+                const newsList = document.createElement('ul'); // Crear una lista para las noticias
+
+                // Iterar sobre las primeras 5 noticias o menos si hay menos de 5 noticias
+                for (let i = 0; i < Math.min(4, data.length); i++) {
+                    const noticia = data[i];
+
+                    const noticiaItem = document.createElement('li'); // Crear un elemento de lista para cada noticia
+                    const noticiaElement = document.createElement('div');
+                    noticiaElement.innerHTML = `
+                        <h4 class="titulo">${noticia.Titulo}</h4>
+                        <p class="date">Date post: ${noticia.Fecha}</p>
+                        <!-- end show post -->
+                    `;
+
+                    // Agregar evento de clic al título para redirigir a news3.html
+                    noticiaElement.querySelector('.titulo').addEventListener('click', () => {
+                        window.location.href = 'events.html';
+                    });
+
+                    noticiaItem.appendChild(noticiaElement);
+                    newsList.appendChild(noticiaItem);
+                }
+
+                newsContainer.appendChild(newsList);
+            })
+            .catch(error => console.error('Error al obtener los eventos', error));
+    });
+                                                 
                                         
                                 
                                     </script>
                                     
                                 </div>
+                                
                             </div>
+                            
                         </div>
-                     
-                            <div class="col-md-8 col-lg-8 col-xl-8">
-                        
-                        
-                                <ul class="icon-list">
-                                    <li><i class="fas fa-cog" ></i><a class="lista" href="https://www.upiih.ipn.mx/">UPIIH</a></li>
-                                    <li><i class="fas fa-cog" ></i><a class="lista" href="https://simmer.io/@LAFuentes/upiih-recorrido-virtual#google_vignette">UPIIH Virtual Tour</a></li>
-                                    <li><i class="fas fa-cog" ></i><a class="lista" href="https://www.facebook.com/Podcast.UPIIH/videos">Podcast UPIIH</a></li>
-                
-                                    </ul>
-                               </div>
+                       
 
                         </div>
                             
