@@ -73,13 +73,8 @@
             <label>Input post date:</label>
             <input type="date" id="start" name="trip-start" min="2024-01-01" max="-12-31" />
         </div>
-        <div class="dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Add</a>
-            <div class="dropdown-menu m-0">
-                <div class="container-fluid bi bi-link">
-                    <input name="txturl" type="url" placeholder="input url...">
-                    <input name="txtfile" class="bi bi-file-image" type="file"> </button>
-                </div>
+
+       
             </div>
         </div>
         <div class="selection">
@@ -88,13 +83,17 @@
                 <option value="eventos">Events</option>
                 <option value="Noticias">News</option>
                 <option value="Posiciones abiertas">Open Positions</option>
-                <option value="Publicaciones">Publications</option>
             </select>
         </div>
         <script>
-            tinymce.init({
-              selector: '#message'
-            });
+             tinymce.init({
+        selector: '#message', // Selector del textarea al que deseas aplicar el editor
+        plugins: 'lists link image media', // Lista de plugins que deseas habilitar
+        toolbar: ' undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image', // Barra de herramientas personalizada
+        menubar: false, // Deshabilita la barra de menú
+        
+        height: 300 // Altura del editor
+    });
           </script>
           <script>
             // Agregar un evento de envío al formulario
@@ -122,6 +121,7 @@
             <label for="message" class="col-2 col-sm-1 col-form-label">Description:</label>
             <textarea class="form-control" id="message" name="body" rows="12" placeholder="Click here to write the publication"></textarea>
         </div>
+        <input name="txtfile" class="bi bi-file-image" type="file"></button>
         <div class="form-group">
             <button type="submit" class="btn btn-success bi bi-upload"> Publish</button>
             <a href="index.html">
@@ -143,16 +143,7 @@
               
  <!--form end-->
       
- <script>
-    tinymce.init({
-        selector: '#message', // Selector del textarea al que deseas aplicar el editor
-        plugins: 'lists link image', // Lista de plugins que deseas habilitar
-        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image', // Barra de herramientas personalizada
-        menubar: false, // Deshabilita la barra de menú
-        height: 300 // Altura del editor
-    });
-</script>
-
+ 
     
 
         <!-- Footer Start -->

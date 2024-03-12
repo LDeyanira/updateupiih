@@ -27,6 +27,9 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <!--TinyMCE  API-->
+        <script src="https://cdn.tiny.cloud/1/2kuu50odhwzoo66bh9jzrdbxcii9vjju078i3uxfj997bany/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        
     </head>
 
     <body>
@@ -84,17 +87,22 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto py-0">
-                        <a href="team.html" class="nav-item nav-link active">People</a>
                         <a href="publications.html" class="nav-item nav-link">Publications</a>
                         <a href="news3.html" class="nav-item nav-link">News</a>
                         <a href="events.html" class="nav-item nav-link">Events</a>
                         <a href="galeries.html" class="nav-item nav-link">Galeries</a>
                         <a href="openpositions.html" class="nav-item nav-link">OpenPositions</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Bonding</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">People</a>
                             <div class="dropdown-menu m-0">
-                                <a href="nationalbonded.html" class="dropdown-item">National</a>
-                                <a href="internationalbonded.html" class="dropdown-item">International</a>
+                                <a href="team.html" class="dropdown-item">Principal Investigators</a>
+                                <a href="internationalbonded.html" class="dropdown-item">Graduated Students</a>
+                                <a href="internationalbonded.html" class="dropdown-item">UnderGraduated Students</a>
+                                <a href="internationalbonded.html" class="dropdown-item">Co-Investigators</a>
+                                <a href="internationalbonded.html" class="dropdown-item">Visiting scholar</a>
+                                <a href="internationalbonded.html" class="dropdown-item">Exchange students</a>
+                                <a href="internationalbonded.html" class="dropdown-item">Alumni</a>
+                                <a href="#" class="dropdown-item">Other collaborators</a>
                             </div>
                         </div>
                     
@@ -107,64 +115,104 @@
                       </form>  
                 </div>
             </nav>
-            <div class="container-fluid service py-5">
-                <div class="col-md-6  " data-wow-delay="0.3s"></div>
-                <h1 class="titule">Open Positions</h1>
-                
-    <div id="newsContainer">
-        <!-- Aquí se mostrarán las noticias -->
-    </div>
 
-    <script>
-         // Realizar una solicitud GET al backend para obtener las noticias
-         fetch('show_OpenPositions.php')
-            .then(response => response.json())
-            .then(data => {
-                // Manipular los datos recibidos y mostrar las noticias en el contenedor
-                const newsContainer = document.getElementById('newsContainer');
-                const newsList = document.createElement('ul'); // Crear una lista para las noticias
-    
-                data.forEach(noticia => {
-                    const noticiaItem = document.createElement('li'); // Crear un elemento de lista para cada noticia
-                    const noticiaElement = document.createElement('div');
-                    noticiaElement.innerHTML = `
-                        <h4 class="titulo">${noticia.Titulo}</h4>
-                        <p class="descripcion">${noticia.Descripcion}</p>
-                        <p>Date post: ${noticia.Fecha}</p>
-                        <p>URL: <a href="${noticia.URL}">${noticia.URL}</a></p>
-                        <!-- end show post -->
-                    `;
-    
-                    // Ocultar la descripción y el enlace inicialmente
-                    noticiaElement.querySelector('.descripcion').style.display = 'none';
-                    noticiaElement.querySelector('a').style.display = 'none';
-    
-                    // Agregar evento de clic al título para mostrar la descripción y el enlace
-                    noticiaElement.querySelector('.titulo').addEventListener('click', () => {
-                        const descripcion = noticiaElement.querySelector('.descripcion');
-                        const enlace = noticiaElement.querySelector('a');
-                        if (descripcion.style.display === 'none') {
-                            descripcion.style.display = 'block';
-                            enlace.style.display = 'block';
-                        } else {
-                            descripcion.style.display = 'none';
-                            enlace.style.display = 'none';
-                        }
-                    });
-    
-                    noticiaItem.appendChild(noticiaElement);
-                    newsList.appendChild(noticiaItem);
-                });
-    
-                newsContainer.appendChild(newsList);
-            })
-            .catch(error => console.error('Error al obtener las noticias', error));
+        </div>
+        <!-- Navbar & Hero End -->
+
+
+        <!-- Services Start--> 
+        <script>
+            tinymce.init({
+                selector: '.descripcion', // Selector de la clase que tiene la descripción
+                plugins: 'lists link image', // Lista de plugins que deseas habilitar
+                toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image', // Barra de herramientas personalizada
+                menubar: false, // Deshabilita la barra de menú
+                height: 300 // Altura del editor
+            });
+        </script>
+        
+        <div class="container-fluid service py-5">
+            <h1 class="titule">Open Positions</h1>
+            <div class="container py-5">
+                <div class="row">
+                   
+                        <h2 class="subtitle2"></h2>
+                        <div id="latestNewsContainer">
+                            <!-- Aquí se mostrarán las noticias más recientes -->
+                        </div>
+                    </div>
+                    
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>
+        
+<script>
+    fetch('show_OpenPositions.php')
+    .then(response => response.json())
+    .then(data => {
+        const latestNewsContainer = document.getElementById('latestNewsContainer');
+        const pastNewsContainer = document.getElementById('pastNewsContainer');
+        const currentDate = new Date();
         
 
-    </script>
-    </script>
+        data.forEach(noticia => {
+            const noticiaElement = document.createElement('div');
+            noticiaElement.classList.add('noticia');
 
+            const tituloElement = document.createElement('h4');
+            tituloElement.textContent = noticia.Titulo;
+            tituloElement.classList.add('titulo');
+
+            const fechaElement = document.createElement('p');
+            fechaElement.textContent = `Date post: ${noticia.Fecha}`;
+            fechaElement.classList.add('fecha');
+           
+           
+
+            const descripcionElement = document.createElement('div');
+            descripcionElement.innerHTML = noticia.Descripcion;
+            descripcionElement.classList.add('descripcion');
+            descripcionElement.style.display = 'none';
+
+            tituloElement.addEventListener('click', () => {
+                if (descripcionElement.style.display === 'none') {
+                    descripcionElement.style.display = 'block';
+                }
+                
+                 else {
+                    descripcionElement.style.display = 'none';
+                }
+            });
+
+            noticiaElement.appendChild(tituloElement);
+            noticiaElement.appendChild(fechaElement);
+            noticiaElement.appendChild(descripcionElement);
+
+            // Parsear la fecha de la noticia
+            const fechaNoticia = new Date(noticia.Fecha);
+
+            // Decidir en qué contenedor agregar la noticia
+    
+            if ( fechaNoticia >= currentDate) {
+                latestNewsContainer.appendChild(noticiaElement);
+            } 
+        
+            
           
+        });
+    })
+    .catch(error => console.error('Error al obtener las noticias', error));
+
+       
+    </script>
+        
+                  
+
+               
+                </div>
               
                 
              
@@ -212,7 +260,7 @@
         
       
         <!-- Back to Top -->
-        <a href="openpositions.html" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>   
+        <a href="news3.html" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
         
         <!-- JavaScript Libraries -->
